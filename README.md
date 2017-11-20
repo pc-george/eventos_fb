@@ -1,13 +1,17 @@
-Events
+##Events
 
-Esta es una aplicación que facilita la búsqueda de los eventos publicados en Facebook y que cumplan con ciertos parámetros definidos por el usuario.
+Esta es una aplicación que facilita la búsqueda de los eventos publicados en Facebook que cumplan con ciertos parámetros definidos por el usuario.
 
 Versión 1.0
+
 Última actualización: 20/01/2017
 
 Autor/desarrollador:
+
 PEM. Jorge Luis Pérez Canto.
+
 E-mail: george.jlpc@gmail.com
+
 
 
 ## Inspiration
@@ -34,3 +38,6 @@ Implementar facebook en nuestras aplicaciones.
 Agregar más funcionalidades como generar un Ticket para poder imprimirlo dicha boleta en papel.
 Sincronizar los eventos de facebook con el calendario de Google.
 Agregar un Mapa que muestre la ubicación de los eventos.
+
+
+# Copyright © 2017 Jorge Pérez Todos los derechos reservados.
