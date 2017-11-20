@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <meta name="format-detection" content="telephone=no" />
+    <!-- Desactivar la detección automática de direcciones postales -->
+    <meta name="format-detection" content="address=no">
+    <!-- Esto deshabilita el resaltado de vínculos al pulsarlos, tanto en IE11, IE10 y Windows Phone. -->
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta http-equiv="Content-Security-Policy" content="default-src filesystem * 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; frame-src 'self' *" />
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <meta name="description" content="Búsqueda de eventos publicados en Facebook a realizarse cerca de la ubicación del usuario.">
+    <meta name="keywords" content="George, Facebook, Events">
+    <meta name="author" content="Jorge Luis Pérez Canto">
+    <meta name="designer" content="Jorge Luis Pérez Canto"/>
+    <meta name="copyright" content="© 2017 Jorge Luis Pérez Canto"/>
+    <meta name="contact" content="george.jlpc@gmail.com">
+    <meta name="date" content="2017-11-01@01:00:00 TMZ"/>
+    <meta http-equiv="last-modified" content="2017-11-20@07:50:00 TMZ"/>
+    <meta name="application-name" content="Facebook Events -JLPC-">
+    <meta property="og:title" content="Facebook Events -JLPC-"/>
+
+    <title>Events</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
+    <link rel="manifest" href="icons/manifest.json">
+    <link rel="mask-icon" href="icons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="icons/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="FB Events">
+    <meta name="application-name" content="FB Events">
+    <meta name="msapplication-config" content="icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+
+      <link href="./css/bootstrap.css" rel="stylesheet">
+      <link href="./css/fbootstrapp.css" rel="stylesheet">
+      
+      <link href="./css/event_list.css" rel="stylesheet">
+
+      <script src="./js/jquery-3.2.1.js"></script>
+      <script src="./js/jquery-migrate-3.0.0.js"></script>
+      <script src="./js/jquery-migrate-1.4.1.js"></script>
+      
+      <script src="./js/jquery-ui.js"></script>
+      <link href="./css/jquery-ui.css" rel="stylesheet">
+      
+
+      <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+      <script src="./js/handlebars-v4.0.11.js"></script>
+      <script src="./js/fb_event.js"></script>
+      <script src="./js/bootstrap-tabs.js"></script>
+
+      <script id="plantillaEventos" name="plantillaEventos" type="text/x-handlebars-template">
+        <br></br>
+      {{#if elementos}}
+        {{#each elementos}}
+          <li>
+            <time datetime="2018-10-29">
+              <span class="day">{{dia}}</span>
+              <span class="month">{{mes}}</span>
+              <span class="year">{{año}}</span>
+              <span class="time">{{timezone}}</span>
+            </time>
+            
+            <img alt="dj-set" src="{{coverSource}}"/>
+
+            <div class="info">
+              <div class="row">
+                <div class="col-sm-12">
+                  <h2 class="title"><a href="https://www.facebook.com/events/{{id}}" target="_self">{{name}}</a></h2>
+                </div>
+              </div>
+              
+              
+              <div class="row">
+                <div class="col-sm-4">Horario: </div>
+                <div class="col-sm-8"><strong>{{hora_inicio}} - {{hora_fin}}</strong></div>
+              </div>
+              
+              <div class="row">
+                <div class="col-sm-4">Direcci&oacute;n:</div>
+                <div class="col-sm-8"><strong>{{direccion}}</strong></div>
+              </div>
+              <div class="row">
+                <div class="col-sm-4">Organizador:</div>
+                <div class="col-sm-8">
+                  <a href="https://www.facebook.com/{{ownerId}}">{{ownerName}}</a>
+                </div>
+              </div>
+
+              <!-- <div class="fb-page" data-href="https://www.facebook.com/{{ownerId}}" data-tabs="events" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="false"><blockquote cite="https://www.facebook.com/{{ownerId}}" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/{{ownerId}}">{{ownerName}}</a></blockquote></div> -->
+            </div>
+          </li>
+          
+        {{/each}}
+      {{/if}}
+    </script>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    
+    <style type="text/css">
+      html, body {
+        background-color: #eee;
+      }
+      body {
+        padding-top: 80px;
+      }
+      .container > footer p {
+        text-align: center;
+      }
+      .container {
+        /*width: 820px; */
+      }
+      .container > .content {
+        background-color: #fff;
+        padding: 20px;
+        margin: 0 -20px;
+        -webkit-border-radius: 0 0 6px 6px;
+           -moz-border-radius: 0 0 6px 6px;
+                border-radius: 0 0 6px 6px;
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+                box-shadow: 0 1px 2px rgba(0,0,0,.15);
+      }
+
+      .page-header {
+        background-color: #f5f5f5;
+        padding: 20px 20px 10px;
+        margin: -20px -20px 20px;
+      }
+
+      .content .span10,
+      .content .span4 {
+        min-height: 300px;
+      }
+      .content .span4 {
+        margin-left: 0;
+        padding-left: 19px;
+        border-left: 1px solid #eee;
+      }
+
+      .topbar .btn {
+        border: 0;
+      }      
+    </style>
+
+  </head>
+
+  <body>
+    <div id="fb-root"></div>
+    <header>
+      <div class="topbar">
+        <div class="fill">
+          <div class="container">
+            <a class="brand" href="#">Events</a>
+            <nav>
+              <ul class="nav">
+                <li class="active"><a href="#" onclick="home();">Inicio</a></li>
+                <li><a href="#" onclick="about();">Acerca de...</a></li>
+                <li><a href="#contact" onclick="contact();">Contacto</a></li>
+              </ul>
+            </nav>
+            <form action="" class="pull-right">
+              <button id="btnIniciarSesion" class="btn" type="button" onclick="FBBtnLogin()">Iniciar sesión</button>
+              <button id="btnCerrarSesion" class="btn hide" type="button" onclick="FBBtnLogout()">Cerrar sesión</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div id="dialog" title="Inicie sesi&oacute;n">
+      <p>Para poder buscar eventos, primero debe iniciar sesión con su cuenta de facebook y autorizar esta aplicaci&oacute;n.</p>
+    </div>
+    <script type="text/javascript">
+      $( "#dialog" ).dialog({
+        autoOpen: false,
+        width: 320,
+        buttons: [
+          {
+            text: "Aceptar",
+            click: function() {
+              $( this ).dialog( "close" );
+              FBBtnLogin();
+            }
+          }
+        ]
+      });  
+    </script>
+
+    <div id="CamposVacios" title="Advertencia">
+      <p>Antes de continuar debe escribir el tema y la ubicaci&oacute;n de los eventos que desea buscar. Int&eacute;ntalo nuevamente.</p>
+    </div>
+    <script type="text/javascript">
+      $( "#CamposVacios" ).dialog({
+        autoOpen: false,
+        width: 320,
+        buttons: [
+          {
+            text: "Aceptar",
+            click: function() {
+              $('#divEventos').html("");
+              $( this ).dialog( "close" );
+
+              var keyword = document.getElementById("searchTxt").value;
+              var location = document.getElementById("searchUbicacion").value;
+              if (keyword == "" || keyword == null || keyword == undefined) {
+                $( "#searchTxt" ).focus();
+              } else if (location == "" || location == null || location == undefined) {
+                $( "#searchUbicacion" ).focus();
+              }
+              
+            }
+          }
+        ]
+      });  
+    </script>
+
+    <section id="home" class="home" name="home">
+      <div class="container">
+        <div class="content">
+          <div class="page-header" id="status">
+            <center>
+              <h1 id="User">Usuario no registrado. <br/> <small>Por favor inicie sesión con facebook.</small></h1>
+            <!-- <div id="loginFB" class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="true" data-use-continue-as="true"></div> -->
+            </center>
+          </div>
+          <div class="row">
+            <div>
+              <center>
+                <div class="acercaDe">
+                  <p>Esta es una aplicaci&oacute;n que facilita la b&uacute;squeda de los eventos publicados en Facebook, que cumplan con ciertos par&aacute;metros definidos por el usuario.</p>
+                  <br/>
+                </div>
+                <h2 class="margin_bottom_20">Criterios de búsqueda</h2>
+                <div class="row">
+                  <div class="col-xs-2 col-sm-4"></div>
+                  <div class="col-xs-10 col-sm-2"><label for="searchTxt">Categor&iacute;a o tema:&nbsp;</label></div>
+                  <div class="col-xs-10 col-sm-2"><input class = "inputText" type="text" align="middle" name="searchTxt" id="searchTxt" value=""/></div>
+                  <div class="col-xs-2 col-sm-4"></div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-2 col-sm-4"></div>
+                  <div class="col-xs-10 col-sm-2"><label for="searchUbicacion">Ubicaci&oacute;n:&nbsp;</label></div>
+                  <div class="col-xs-10 col-sm-2"><input class = "inputText" type="text" align="middle" name="searchUbicacion" id="searchUbicacion" value=""/></div>
+                  <div class="col-xs-2 col-sm-4"></div>
+                </div>
+                <div id="eventos">
+                  <br/>
+                  <button class="btn primary" id="enviar" onclick="Event1();">Buscar Eventos</button>
+                </div>
+                <div class="container">
+                  <div class="row">
+                    <div class="[ col-xs-12 col-sm-offset-1 col-sm-10 ]">
+                      <ul class="event-list" id="divEventos" name="divEventos">
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div id="parrafo"></div>
+              </center>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="about" name="about" style="display: none;">
+      <div class="container">
+        <div class="content">
+          <div class="page-header" id="status">
+            <h1>Acerca de...</h1>
+          </div>
+          <div class="row">
+            <div>
+              <center>
+                <div class="acercaDe" class="tb padding_acercaDe">
+                  <h2 class="margin_bottom_20"><b>Events</b></h2>
+                  <p>Esta es una aplicaci&oacute;n que facilita la b&uacute;squeda de los eventos publicados en Facebook y que cumplan con ciertos parametros definidos por el usuario.</p>
+                  <br>
+                  <p>Versi&oacute;n 1.0</p>
+                  <p>&Uacute;ltima actualizaci&oacute;n: 19/01/2017</p>
+                  <br/>
+                  <p>Autor/desarrollador: </p>
+                  <p>PEM. Jorge Luis P&eacute;rez Canto.</p>
+                  <p>Contacto: <a href="https://www.linkedin.com/in/jorge-luis-perez-canto">LinkedIn</a> </p>
+                  <p>E-mail: george.jlpc@gmail.com</p>
+                </div>
+              </center>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact" name="contact" style="display: none;">
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfEDSuLmNUyzNzkxHKoyiTDyYFlClP0NrTwMQHL-5reLkeS7A/viewform?embedded=true" width="100%" height="960" frameborder="0" marginheight="0" marginwidth="0">Cargando…</iframe>
+    </section>
+
+    <footer id="footer">
+        <center>
+          <br></br>
+          <div class="container-fluid">
+              <div class="row">
+                  <div class="col-xs-100 col-sm-53 footer1">
+                      <span id="copyright_footer">
+                          Copyright &copy; 
+                      </span>
+                      <script type="text/javascript">
+                          function getAnio() {
+                            var fecha, anio_actual;
+                            fecha = new Date();
+                            anio_actual = fecha.getFullYear();
+                            if (anio_actual < 2017) {
+                                anio_actual = 2017;
+                            }
+                            return anio_actual;
+                          }
+                          document.write(getAnio());
+                      </script>
+                      <span>Jorge P&eacute;rez</span>      
+                  </div>
+                  <div class="col-xs-100 col-sm-47 footer2 hidden-xs">
+                      <span>Todos los derechos reservados.</span>
+                  </div>
+              </div>
+          </div>
+      </center>
+    </footer>
+  </div>
+
+    <script type="text/javascript">
+      function ListarEventos() {
+
+        if (lista_eventos.length == 0) {
+          $('#divEventos').html("<br/><br/><b>No se ha encontrado ning&uacute;n resultado que cumpla con los criterios de b&uacute;squeda</b><br/>");
+        } else {
+          var origen = $('#plantillaEventos').html();
+          var plantilla = Handlebars.compile(origen);
+          //lista_eventos = lista_eventos.unique();
+          //console.log("lista_eventos::::::::::::::");
+          console.log(lista_eventos);
+          var arreglo_eventos = { elementos: lista_eventos };
+          $('#divEventos').html(plantilla(arreglo_eventos));          
+        }
+      }
+
+      function Event1() {
+        lista_eventos = [];
+        datos = [];
+        $('#divEventos').html("<br/><br/> <img src='./css/images/25.gif'> <br/>");
+        $( document ).ready(function() {
+          var keyword = document.getElementById("searchTxt").value;
+          var location = document.getElementById("searchUbicacion").value;
+
+          if ((keyword == "" || keyword == null || keyword == undefined) || (location == null || location == undefined)) {
+            $( "#CamposVacios" ).dialog( "open" );
+          } else {
+            setSearchEvent(keyword);
+            setUbicacion(location);
+            BuscarEventos();
+            //ListarEventos();
+            //setSearchEvent(null);
+          }
+
+        });
+      }
+    </script>
+
+  </body>
+</html>
