@@ -1,4 +1,4 @@
-##Events
+## Events
 
 Esta es una aplicación que facilita la búsqueda de los eventos publicados en Facebook que cumplan con ciertos parámetros definidos por el usuario.
 
@@ -40,4 +40,4 @@ Sincronizar los eventos de facebook con el calendario de Google.
 Agregar un Mapa que muestre la ubicación de los eventos.
 
 
-# Copyright © 2017 Jorge Pérez Todos los derechos reservados.
+### Copyright © 2017 Jorge Pérez Todos los derechos reservados.
